@@ -1,0 +1,7 @@
+recipe com.mycompany.myproject 1.0.0;
+const MAIL_ID="jNsX";
+const WEAK_AUTH="jFKx";
+const SIMPLE_AUTH="zVHJ";
+const GDA_ID="1TIT";
+const USERDIR_ID="RLvv";
+service myMacros = macro("mDr4");

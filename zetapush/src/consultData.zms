@@ -1,0 +1,3 @@
+macroscript consultData(){
+	var finalresult = gda(GDA_ID).list({'table': 'mailbox', 'page': {'pageNumber': 0, 'pageSize': 10, 'direction':'DESC'}});
+} return {'result': finalresult.result.content} on channel 'consultData'

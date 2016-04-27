@@ -1,0 +1,4 @@
+macroscript storeData(value){
+	gda(GDA_ID).puts({'table': 'mailbox', 'rows': [{'key': time:now(), 'data': {'box1': value}}]});
+	macro(__deploymentId).func({'name': 'checkDist','parameters':{'destination':"jaatadia@gmail.com"}});
+} return {} on channel 'storeData'

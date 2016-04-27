@@ -1,0 +1,3 @@
+macroscript sendMail(destination,text){
+	sendmail(MAIL_ID).send({'to': [destination], 'subject': text, 'text': text});
+} return {'destination':destination,'text': text} on channel 'sendMail'

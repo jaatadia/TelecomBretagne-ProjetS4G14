@@ -1,0 +1,5 @@
+macroscript checkUser(login){
+	//var user = search(USERDIR_ID).search({'indices':["zetapushKey"],'query':{"zetapushKey":__userKey}});
+	var user = simple(SIMPLE_AUTH).checkUser({'key':login});
+} return {'result': user} on channel 'checkUser'
+

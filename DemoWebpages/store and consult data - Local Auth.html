@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>store and consult data</title>
+    <script src="https://static.zpush.io/js/1.1.11/zetapush.min.js"></script>
+    <style>body::before{display: block;content: "Open Your Console";background: #000;color: #FFF;position: fixed;transform: rotate(45deg) translate(60px, 0px);right: 0;top: 0;height: 25px;padding: 5px 30px;line-height: 25px;font-family: Calibri, Helvetica, Arial;font-weight: bold;}</style>
+  </head>
+  <body>
+    <h1>store and consult data with ZetaPush</h1>
+    <form name="form" class="js-Form--SendMail">
+      <label>to : <input type="text" name="to" class="js-Input--To" autofocus value="10"/><label>
+      <button class="js-Button--Send">Send</button>
+    </form>
+
+    <form name="form" class="js-Form--SendTemplatedMail">
+      <button>Consult</button>
+    </form>
+
+    <form name="form" class="js-Form--reset">
+      <button>Reset</button>
+    </form>
+
+    <form name="form" class="js-Form--checkUserData">
+      <button>checkUserData</button>
+    </form>
+
+
+    <script>
+      (function main() {
+
+        // Callback for handshake
+        zp.onHandshake(function (message) {
+          if (message.successful) {
+            console.log('ZetaPush Hanshake Successful');
+          }
+        });
+        // callback when you get connected
+        zp.onConnected(function(message) {
+          console.log('You are connected', message);
+        });
+
+        function $(selector, root) {
+          return (root || document).querySelector(selector);
+        }
+
+        function on(selector, event, handler) {
+          return $(selector).addEventListener(event, handler);
+        }
+
+        
+        // Business Id
+        var businessId= 'e3qeDdH4'; //sandbox-ID
+        zp.init(businessId);
+
+      	// This is the deploymentId of our Memory Authentification
+        var authentDeploymentId = 'zVHJ'; //authentication ID
+        var authent = new zp.authent.Simple(authentDeploymentId);
+
+        // Initialize ZetaPush and Connect
+        // Login parameters
+        var login = 'javier'
+        var password = 'javier';
+        var resource = 'zetapushTuto';
+        zp.connect(authent.getConnectionData(login, password, resource));
+
+
+
+		// Creation of the template service
+        var macroDeploymentId = 'mDr4';
+        var macroService = new zp.service.Generic(macroDeploymentId);
+
+        macroService.onError(function(message) {
+          console.error('macroService::onError', message);
+        });
+
+        macroService.on('storeData', function(message) {
+          macroService.send('call', {
+            name: 'consultData',
+            parameters: {},
+            hardFail: true
+          });
+        });
+
+        macroService.on('consultData', function(message) {
+          console.log(message.data.result['result'])
+        });
+
+        macroService.on('resetDatabase', function(message) {
+          console.log(message.data.result['result'])
+        });
+
+        macroService.on('checkUser', function(message) {
+          console.log(message.data.result['result'])
+        });
+
+        on('.js-Form--SendMail', 'submit', function onFormSubmit(event) {
+          console.time('Mail::SendMail');
+
+          event.preventDefault();
+
+          macroService.send('call', {
+            name: 'storeData',
+            parameters: {'value':parseInt($('.js-Input--To', event.currentTarget).value)},
+            hardFail: true
+          });
+        });
+
+
+        on('.js-Form--SendTemplatedMail', 'submit', function onFormSubmit(event) {
+          console.time('Mail::SendMail');
+
+          event.preventDefault();
+
+          macroService.send('call', {
+            name: 'consultData',
+            parameters: {},
+            hardFail: true
+          });
+        });
+
+        on('.js-Form--reset', 'submit', function onFormSubmit(event) {
+          console.time('Mail::SendMail');
+
+          event.preventDefault();
+
+          macroService.send('call', {
+            name: 'resetDatabase',
+            parameters: {},
+            hardFail: true
+          });
+        });
+
+
+        on('.js-Form--checkUserData', 'submit', function onFormSubmit(event) {
+          console.time('Mail::SendMail');
+
+          event.preventDefault();
+
+          macroService.send('call', {
+            name: 'checkUser',
+            parameters: {'login': login},
+            hardFail: true
+          });
+        });
+
+      }());
+
+
+  </script>
+  </body>
+</html>

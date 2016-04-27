@@ -1,0 +1,3 @@
+macroscript echoTest(text){
+	var result = str:upper(text);
+} return {'origin':text,'result': result} on channel 'echoTest'
