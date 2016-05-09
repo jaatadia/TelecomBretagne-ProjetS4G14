@@ -1,4 +1,6 @@
 .git/*
+.metadata/*
 zetapush/target/*
 zetapush/src-gen/*
 zetapush/.project
+RemoteSystemsTempFiles/*

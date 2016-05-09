@@ -4,4 +4,7 @@ const WEAK_AUTH="jFKx";
 const SIMPLE_AUTH="zVHJ";
 const GDA_ID="1TIT";
 const USERDIR_ID="RLvv";
-service myMacros = macro("mDr4");
+const MACRO_ID="mDr4";
+const STACK_ID="xFef";
+
+service myMacros = macro(MACRO_ID);

@@ -6,14 +6,18 @@
     <style>body::before{display: block;content: "Open Your Console";background: #000;color: #FFF;position: fixed;transform: rotate(45deg) translate(60px, 0px);right: 0;top: 0;height: 25px;padding: 5px 30px;line-height: 25px;font-family: Calibri, Helvetica, Arial;font-weight: bold;}</style>
   </head>
   <body>
-    <h1>Mail Sender with ZetaPush</h1>
+    <h1>echo with ZetaPush macro</h1>
     <form name="form" class="js-Form--SendMail">
-      <label>to : <input type="text" name="to" class="js-Input--To" autofocus value="example@example.com"/><label>
+      <label>echo : <input type="text" name="to" class="js-Input--To" autofocus/><label>
       <button class="js-Button--Send">Send</button>
     </form>
 
+    <h2>origin</h2><h3 id="origin"></h3>
+    <h2>result</h2><h3 id="result"></h3>
+
     <script>
       (function main() {
+        
 
         // Callback for handshake
         zp.onHandshake(function (message) {
@@ -36,11 +40,11 @@
 
         
         // Business Id
-        var businessId= 'sAt37eHa'; //sandbox-ID
+        var businessId= 'e3qeDdH4'; //sandbox-ID
         zp.init(businessId);
 
       	// This is the deploymentId of our Memory Authentification
-        var authentDeploymentId = 'hphS'; //authentication ID
+        var authentDeploymentId = 'jFKx'; //authentication ID
         var authent = new zp.authent.Weak(authentDeploymentId);
 
         // Initialize ZetaPush and Connect
@@ -53,28 +57,39 @@
 
 
 		// Creation of the template service
-        var macroDeploymentId = 'SJ4z';
+        var macroDeploymentId = 'mDr4';
         var macroService = new zp.service.Generic(macroDeploymentId);
 
         macroService.onError(function(message) {
           console.error('macroService::onError', message);
         });
 
-        macroService.on('sendMail', function(message) {
+        macroService.on('echoTest', function(message) {
+          console.log(message)
+          document.getElementById("origin").innerHTML=message.data.result['origin'];
+          document.getElementById("result").innerHTML=message.data.result['result'];
+        });
+
+        macroService.on('completed', function(message) {
           console.log(message)
         });
 
 
-        on('.js-Form--SendMail', 'submit', function onFormSubmit(event) {
+        macroService.on('consultData', function(message) {
+          console.log(message)
+        });
+
+         on('.js-Form--SendMail', 'submit', function onFormSubmit(event) {
           console.time('Mail::SendMail');
 
           event.preventDefault();
 
           macroService.send('call', {
-            name: 'sendMail',
-            parameters: {'destination':$('.js-Input--To', event.currentTarget).value, 'text':'Hello World!'},
+            name: 'echoTest',
+            parameters: {'text':$('.js-Input--To', event.currentTarget).value},
             hardFail: true
           });
+
         });
 
       }());

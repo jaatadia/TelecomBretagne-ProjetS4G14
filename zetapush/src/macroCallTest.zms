@@ -1,0 +1,4 @@
+macroscript macroCallTest(text){
+	//var result=macro(__deploymentId).func({'name': 'echoTest','parameters':{'text':text}});
+	 var myVar = call echoTest( {text : text});
+}return {'origin':myVar.result.origin,'result': myVar.result.result} on channel 'echoTest'

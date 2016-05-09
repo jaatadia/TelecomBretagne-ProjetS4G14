@@ -1,6 +1,6 @@
 macroscript checkDist(destination){
 	var finalresult = gda(GDA_ID).list({'table': 'mailbox', 'page': {'pageNumber': 0, 'pageSize': 10, 'direction':'DESC'}});
-	if(finalresult.result.content[0].box1<5){
+	if(finalresult.result.content[0].box1<5 && finalresult.result.content[1].box1>5){
 		sendmail(MAIL_ID).send({'to': [destination], 'subject': "new message in the box", 'text': "new message in the box"});
 	}
 }
