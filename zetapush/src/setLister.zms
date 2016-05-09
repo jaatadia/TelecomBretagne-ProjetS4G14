@@ -1,0 +1,9 @@
+macroscript setListener{
+	//var users = stack(STACK_ID).getListeners({'stack': 'mailBox1'});
+	//var userList = users.listeners;
+	//stack(STACK_ID).setListeners({'stack': 'mailBox1', 'listeners': list:add(userList,__userKey)});
+	
+	 //deploymentId:owner:stack
+	stack(STACK_ID).setListeners({'stack': 'mailBox1', 'listeners': [__userKey]});
+	var users = stack(STACK_ID).getListeners({'stack': 'mailBox1'});
+} return {'users':users.listeners} on channel 'setListener'

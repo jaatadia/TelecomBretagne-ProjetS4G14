@@ -12,18 +12,6 @@
       <button class="js-Button--Send">Send</button>
     </form>
 
-    <form name="form" class="js-Form--SendTemplatedMail">
-      <button>Consult</button>
-    </form>
-
-    <form name="form" class="js-Form--reset">
-      <button>Reset</button>
-    </form>
-
-    <form name="form" class="js-Form--checkUserData">
-      <button>checkUserData</button>
-    </form>
-
 
     <script>
       (function main() {
@@ -58,9 +46,9 @@
 
         // Initialize ZetaPush and Connect
         // Login parameters
-        var login = 'javier'
-        var password = 'javier';
-        var resource = 'javier';
+        var login = 'zeta'
+        var password = 'zeta';
+        var resource = 'zeta';
         zp.connect(authent.getConnectionData(login, password, resource));
 
 
@@ -73,24 +61,14 @@
           console.error('macroService::onError', message);
         });
 
-        macroService.on('storeData', function(message) {
-          macroService.send('call', {
-            name: 'consultData',
-            parameters: {},
-            hardFail: true
-          });
-        });
+        //macroService.send('call', {
+        //    name: 'setListener',
+        //    parameters: {},
+        //    hardFail: true
+        //});
 
-        macroService.on('consultData', function(message) {
-          console.log(message.data.result['result'])
-        });
-
-        macroService.on('resetDatabase', function(message) {
-          console.log(message.data.result['result'])
-        });
-
-        macroService.on('checkUser', function(message) {
-          console.log(message.data.result['result'])
+        macroService.on("pushStack",function(message) {
+          console.log(message);
         });
 
         on('.js-Form--SendMail', 'submit', function onFormSubmit(event) {
@@ -99,49 +77,14 @@
           event.preventDefault();
 
           macroService.send('call', {
-            name: 'storeData',
+            name: 'pushStack',
             parameters: {'value':parseInt($('.js-Input--To', event.currentTarget).value)},
             hardFail: true
           });
         });
 
 
-        on('.js-Form--SendTemplatedMail', 'submit', function onFormSubmit(event) {
-          console.time('Mail::SendMail');
-
-          event.preventDefault();
-
-          macroService.send('call', {
-            name: 'consultData',
-            parameters: {},
-            hardFail: true
-          });
-        });
-
-        on('.js-Form--reset', 'submit', function onFormSubmit(event) {
-          console.time('Mail::SendMail');
-
-          event.preventDefault();
-
-          macroService.send('call', {
-            name: 'resetDatabase',
-            parameters: {},
-            hardFail: true
-          });
-        });
-
-
-        on('.js-Form--checkUserData', 'submit', function onFormSubmit(event) {
-          console.time('Mail::SendMail');
-
-          event.preventDefault();
-
-          macroService.send('call', {
-            name: 'checkUser',
-            parameters: {'login': login},
-            hardFail: true
-          });
-        });
+        
 
       }());
 

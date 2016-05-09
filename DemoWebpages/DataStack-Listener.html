@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>store and consult data</title>
+    <script src="https://static.zpush.io/js/1.1.11/zetapush.min.js"></script>
+    <style>body::before{display: block;content: "Open Your Console";background: #000;color: #FFF;position: fixed;transform: rotate(45deg) translate(60px, 0px);right: 0;top: 0;height: 25px;padding: 5px 30px;line-height: 25px;font-family: Calibri, Helvetica, Arial;font-weight: bold;}</style>
+  </head>
+  <body>
+    <h1>DataStack with ZetaPush</h1>
+
+
+    <script>
+      (function main() {
+
+        // Callback for handshake
+        zp.onHandshake(function (message) {
+          if (message.successful) {
+            console.log('ZetaPush Hanshake Successful');
+          }
+        });
+        // callback when you get connected
+        zp.onConnected(function(message) {
+          console.log('You are connected', message);
+          macroService.send('call', {
+            name: 'setListener',
+            parameters: {},
+            hardFail: true
+          });
+        });
+
+        function $(selector, root) {
+          return (root || document).querySelector(selector);
+        }
+
+        function on(selector, event, handler) {
+          return $(selector).addEventListener(event, handler);
+        }
+
+        
+        // Business Id
+        var businessId= 'e3qeDdH4'; //sandbox-ID
+        zp.init(businessId);
+
+      	// This is the deploymentId of our Memory Authentification
+        var authentDeploymentId = 'zVHJ'; //authentication ID
+        var authent = new zp.authent.Simple(authentDeploymentId);
+
+        // Initialize ZetaPush and Connect
+        // Login parameters
+        var login = 'zeta'
+        var password = 'zeta';
+        var resource = 'zeta';
+        zp.connect(authent.getConnectionData(login, password, resource));
+
+		// Creation of the template service
+        var macroDeploymentId = 'mDr4';
+        var macroService = new zp.service.Generic(macroDeploymentId);
+
+
+
+
+        macroService.onError(function(message) {
+          console.error('macroService::onError', message);
+        });
+
+		macroService.on("setListener",function(message) {
+          console.log(message);
+        });
+
+		macroService.on('completed',function(message) {
+          console.log(message);
+        });
+
+      }());
+
+
+  </script>
+  </body>
+</html>

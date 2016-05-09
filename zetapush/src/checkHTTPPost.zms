@@ -1,0 +1,7 @@
+macroscript checkHTTPPost{
+	gda(GDA_ID).puts({'table': 'mailbox', 'rows': [{'key': time:now(), 'data': {'box1': "HTTPPOST"}}]});
+}
+
+
+
+

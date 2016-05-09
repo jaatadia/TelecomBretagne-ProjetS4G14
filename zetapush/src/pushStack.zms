@@ -1,0 +1,5 @@
+macroscript pushStack(data) {
+	var result = stack(STACK_ID).push({'stack': 'mailBox1', 'data': {'field1': 'value1'}});
+	//var guid = result.guid;
+	var users = stack(STACK_ID).getListeners({'stack': 'mailBox1'});
+} return {'users':users.listeners} on channel 'pushStack'
