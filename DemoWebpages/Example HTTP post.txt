@@ -1,6 +1,4 @@
 open a linux terminal:
 
 
-wget --header='Content-Type: application/json' --header='X-Authorization: {"data":{"password":"javier", "login":"javier"}, "resource":"javier", "type":"e3qeDdH4.zVHJ.simple"}' --post-data '{"name":"checkHTTPPost"}' 'http://free-1.zpush.io/str/e3qeDdH4/jNsX/call'
-
-wget --header='Content-Type: application/json' --header='X-Authorization: {"data":{"password":"javier", "login":"javier"}, "resource":"javier", "type":"e3qeDdH4.zVHJ.simple"}' --post-data '{"name":"storeData", "parameters":{"value":10}}' 'http://free-1.zpush.io/str/e3qeDdH4/jNsX/call'
+wget --header='Content-Type: application/json' --header='X-Authorization: {"data":{"password":"javier", "login":"javier"}, "resource":"javier", "type":"e3qeDdH4.zVHJ.simple"}' --post-data '{"name":"checkHTTPPost"}' 'http://free-1.zpush.io/str/restd/e3qeDdH4/mDr4/call'
