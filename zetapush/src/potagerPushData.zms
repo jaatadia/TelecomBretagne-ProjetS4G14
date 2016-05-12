@@ -17,7 +17,18 @@ macroscript potagerPushData(number temp,number humidity, number luminosity){
 		if(luminosity<data.minL){found=true;problems=problems+"\nLuminosity is below minimum ";}
 		if(luminosity>data.maxL){found=true;problems=problems+"\nLuminosity is above maximum ";}
 	}
-}return {'user':data, 'problems':found, 'description':problems} on channel 'test'
+	
+	if(found){
+		sendmail(MAIL_ID).send({'to': [data.mail], 'subject': "The conditions of the field are not ideal", 'text': problems});
+	}else{
+		if(coll:size(data)==0){
+			problems="User data not found";
+		}else{
+			problems="None";
+		}
+	}
+	var stored=gda(GDA_ID).list({'table': POTAGER_DATABASE, 'page': {'pageNumber': 0, 'pageSize': 1, 'direction':'DESC'}});
+}return {'user':data, 'stored': stored.result.content[0],'problems':problems} on channel 'test'
 
 
 

@@ -11,8 +11,8 @@ const MAILBOX_EMAIL_DATABASE="MailboxMailDatabase";
 const MAILBOX_DATABASE="MailboxDatabase";
 const MAILBOX_TOLERANCE=1;
 
-const POTAGER_USER_DATABASE= "PotagerUserDatabase";
-const POTAGER_DATABASE= "PotagerDatabase";
+const POTAGER_USER_DATABASE = "PotUserDatabase";
+const POTAGER_DATABASE = "PotagerDatabase";
 
 service myMacros = macro(MACRO_ID);
 
