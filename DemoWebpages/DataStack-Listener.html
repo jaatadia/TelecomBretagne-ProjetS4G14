@@ -56,6 +56,8 @@
         var macroDeploymentId = 'mDr4';
         var macroService = new zp.service.Generic(macroDeploymentId);
 
+		var dataStackDeploymentId = 'xFef';
+        var dataStackService = new zp.service.Generic(dataStackDeploymentId);
 
 
 
@@ -67,7 +69,7 @@
           console.log(message);
         });
 
-		macroService.on('completed',function(message) {
+		dataStackService.on('push',function(message) {
           console.log(message);
         });
 

@@ -7,8 +7,20 @@
   </head>
   <body>
     <h1>store and consult data with ZetaPush</h1>
+    
     <form name="form" class="js-Form--SendMail">
-      <label>to : <input type="text" name="to" class="js-Input--To" autofocus value="10"/><label>
+      <label>set email : <input type="text" name="to" class="js-Input--To" autofocus value="xxx@xxx.com"/><label>
+      <button class="js-Button--Send">Send</button>
+    </form>
+
+
+    <form name="form" class="js-Form--SendData">
+      <label>send value: <input type="text" name="to" class="js-Input--To" autofocus value="10"/><label>
+      <button class="js-Button--Send">Send</button>
+    </form>
+
+    <form name="form" class="js-Form--consultData">
+      <label>get values: <input type="text" name="to" class="js-Input--To" autofocus value="10"/><label>
       <button class="js-Button--Send">Send</button>
     </form>
 
@@ -46,9 +58,9 @@
 
         // Initialize ZetaPush and Connect
         // Login parameters
-        var login = 'zeta'
-        var password = 'zeta';
-        var resource = 'zeta';
+        var login = 'javier'
+        var password = 'javier';
+        var resource = 'javier';
         zp.connect(authent.getConnectionData(login, password, resource));
 
 
@@ -57,43 +69,56 @@
         var macroDeploymentId = 'mDr4';
         var macroService = new zp.service.Generic(macroDeploymentId);
 
-
-        var dataStackDeploymentId = 'xFef';
-        var dataStackService = new zp.service.Generic(dataStackDeploymentId);
-
-
         macroService.onError(function(message) {
           console.error('macroService::onError', message);
         });
 
-        //macroService.send('call', {
-        //    name: 'setListener',
-        //    parameters: {},
-        //    hardFail: true
-        //});
-
-        macroService.on("pushStack",function(message) {
-          //console.log(message);
+        macroService.on('test', function(message) {
+          console.log(message.data.result);
         });
 
+        macroService.on('mailboxgetData', function(message) {
+          console.log(message.data.result);//array of {__key:miliseconds from the epoch, dist: distance stored} epoch=Jan 01 1970 00:00:00 -> [1] is older than [0]
+        });
+
+        //call to register mail
         on('.js-Form--SendMail', 'submit', function onFormSubmit(event) {
           console.time('Mail::SendMail');
 
           event.preventDefault();
-
-          // macroService.send('call', {
-          //   name: 'pushStack',
-          //   parameters: {'value':parseInt($('.js-Input--To', event.currentTarget).value)},
-          //   hardFail: true
-          // });
-          dataStackService.send('call',{name: 'push', parameters:{'stack': 'mailBox1', 'data': {'field1': 'value1'}}});
-
+          macroService.send('call', {
+            name: 'mailboxRegisterMail',
+            parameters: {'mail':$('.js-Input--To', event.currentTarget).value},
+            hardFail: true
+          });
         });
 
-        macroService.on('push',function(message) {
-          console.log(message);
+        //call to send Data
+        on('.js-Form--SendData', 'submit', function onFormSubmit(event) {
+          console.time('Mail::SendMail');
+
+          event.preventDefault();
+          macroService.send('call', {
+            name: 'mailboxPushData',
+            parameters: {'dist':parseInt($('.js-Input--To', event.currentTarget).value)},
+            hardFail: true
+          });
         });
-        
+
+        //consultData
+        on('.js-Form--consultData', 'submit', function onFormSubmit(event) {
+          console.time('Mail::SendMail');
+
+          event.preventDefault();
+
+          macroService.send('call', {
+            name: 'mailboxgetData',
+            parameters: {'size':parseInt($('.js-Input--To', event.currentTarget).value)},//amount of meditions
+            hardFail: true
+          });
+        });
+
+
 
       }());
 

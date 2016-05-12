@@ -1,0 +1,8 @@
+macroscript mailboxRegisterMail(string mail){
+	gda(GDA_ID).put({'table': MAILBOX_EMAIL_DATABASE, 'key': __userKey, 'column':'mail', 'data':mail});
+	var email = gda(GDA_ID).get({'table': MAILBOX_EMAIL_DATABASE, 'key': __userKey});
+}return {'result':email.result.mail} on channel 'test'
+
+
+
+

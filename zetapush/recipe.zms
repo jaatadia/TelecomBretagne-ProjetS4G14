@@ -7,4 +7,10 @@ const USERDIR_ID="RLvv";
 const MACRO_ID="mDr4";
 const STACK_ID="xFef";
 
+const MAILBOX_EMAIL_DATABASE="MailboxMailDatabase";
+const MAILBOX_DATABASE="MailboxDatabase";
+const MAILBOX_TOLERANCE=1;
+
+
 service myMacros = macro(MACRO_ID);
+
