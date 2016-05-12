@@ -7,17 +7,34 @@
   </head>
   <body>
     <h1>store and consult data with ZetaPush</h1>
-    
+  
     <form name="form" class="js-Form--SendMail">
-      <label>set email : <input type="text" name="to" class="js-Input--To" autofocus value="xxx@xxx.com"/><label>
+      <label>set mail : <input type="text" name="to" class="js-Input--mail" autofocus value="xxx@xx.com"/><label>
+      <br>
+      <label>min temp : <input type="text" name="to" class="js-Input--minT" autofocus value="0"/><label>
+      <label>max temp : <input type="text" name="to" class="js-Input--maxT" autofocus value="100"/><label>
+      <br>
+      <label>min humidity : <input type="text" name="to" class="js-Input--minH" autofocus value="0"/><label>
+      <label>max humidity : <input type="text" name="to" class="js-Input--maxH" autofocus value="100"/><label>
+      <br>
+      <label>min luminosity : <input type="text" name="to" class="js-Input--minL" autofocus value="0"/><label>
+      <label>max luminosity : <input type="text" name="to" class="js-Input--maxL" autofocus value="100"/><label>
+
       <button class="js-Button--Send">Send</button>
-    </form>
+    </form>  
 
-
+<br>
+<br>
     <form name="form" class="js-Form--SendData">
-      <label>send value: <input type="text" name="to" class="js-Input--To" autofocus value="10"/><label>
+      <label>push temp : <input type="text" name="to" class="js-Input--T" autofocus value="15"/><label>
+      <label>humidity : <input type="text" name="to" class="js-Input--H" autofocus value="40"/><label>
+      <label>lum : <input type="text" name="to" class="js-Input--L" autofocus value="0"/><label>
       <button class="js-Button--Send">Send</button>
     </form>
+
+<br>
+<br>
+
 
     <form name="form" class="js-Form--consultData">
       <label>get values: <input type="text" name="to" class="js-Input--To" autofocus value="10"/><label>
@@ -58,8 +75,8 @@
 
         // Initialize ZetaPush and Connect
         // Login parameters
-        var login = 'admin'
-        var password = 'admin';
+        var login = 'javier'
+        var password = 'javier';
         var resource = 'javier';
         zp.connect(authent.getConnectionData(login, password, resource));
 
@@ -77,8 +94,8 @@
           console.log(message.data.result);
         });
 
-        macroService.on('mailboxgetData', function(message) {
-          console.log(message.data.result);//array of {__key:miliseconds from the epoch, dist: distance stored} epoch=Jan 01 1970 00:00:00 -> [1] is older than [0]
+        macroService.on('potagergetData', function(message) {
+          console.log(message.data.result);//array of {__key:miliseconds from the epoch, Humidity: xxx , Temp: yyy, Lum:zzz} epoch=Jan 01 1970 00:00:00 -> [1] is older than [0]
         });
 
         //call to register mail
@@ -87,8 +104,16 @@
 
           event.preventDefault();
           macroService.send('call', {
-            name: 'mailboxRegisterMail',
-            parameters: {'mail':$('.js-Input--To', event.currentTarget).value},
+            name: 'potagerRegisterParams',
+            parameters: {
+              'mail':$('.js-Input--mail', event.currentTarget).value,
+              'minT':parseInt($('.js-Input--minT', event.currentTarget).value),
+              'minH':parseInt($('.js-Input--minH', event.currentTarget).value),
+              'minL':parseInt($('.js-Input--minL', event.currentTarget).value),
+              'maxT':parseInt($('.js-Input--maxT', event.currentTarget).value),
+              'maxH':parseInt($('.js-Input--maxH', event.currentTarget).value),
+              'maxL':parseInt($('.js-Input--maxL', event.currentTarget).value)
+            },
             hardFail: true
           });
         });
@@ -99,11 +124,17 @@
 
           event.preventDefault();
           macroService.send('call', {
-            name: 'mailboxPushData',
-            parameters: {'dist':parseInt($('.js-Input--To', event.currentTarget).value)},
+            name: 'potagerPushData',
+            parameters: {
+              'temp':parseInt($('.js-Input--T', event.currentTarget).value),
+              'humidity':parseInt($('.js-Input--H', event.currentTarget).value),
+              'luminosity':parseInt($('.js-Input--L', event.currentTarget).value)
+            },
             hardFail: true
           });
         });
+
+        
 
         //consultData
         on('.js-Form--consultData', 'submit', function onFormSubmit(event) {
@@ -112,7 +143,7 @@
           event.preventDefault();
 
           macroService.send('call', {
-            name: 'mailboxgetData',
+            name: 'potagergetData',
             parameters: {'size':parseInt($('.js-Input--To', event.currentTarget).value)},//amount of meditions
             hardFail: true
           });

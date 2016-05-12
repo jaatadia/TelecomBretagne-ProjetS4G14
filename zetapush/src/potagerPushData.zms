@@ -1,0 +1,24 @@
+macroscript potagerPushData(number temp,number humidity, number luminosity){
+
+	
+	gda(GDA_ID).puts({'table': POTAGER_DATABASE, 'rows': [{'key': time:now(), 'data': {'Temp': temp,'Humidity':humidity,'Lum':luminosity}}]});
+	
+	var data = gda(GDA_ID).get({'table': POTAGER_USER_DATABASE, 'key': __userKey});
+	data=data.result;
+	var found=false;
+	var problems="The conditions of the field are not ideal:";
+	if(coll:size(data)>0){
+		if(temp<data.minT){found=true;problems=problems+"\nTemperature is below minimum ";}
+		if(temp>data.maxT){found=true;problems=problems+"\nTemperature is above maximum ";}
+		
+		if(humidity<data.minH){found=true;problems=problems+"\nHumidity is below minimum ";}
+		if(humidity>data.maxH){found=true;problems=problems+"\nHumidity is above maximum ";}
+		
+		if(luminosity<data.minL){found=true;problems=problems+"\nLuminosity is below minimum ";}
+		if(luminosity>data.maxL){found=true;problems=problems+"\nLuminosity is above maximum ";}
+	}
+}return {'user':data, 'problems':found, 'description':problems} on channel 'test'
+
+
+
+

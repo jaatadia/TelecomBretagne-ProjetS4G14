@@ -1,0 +1,7 @@
+macroscript potagergetData(number size){
+	var finalresult = gda(GDA_ID).list({'table': POTAGER_DATABASE, 'page': {'pageNumber': 0, 'pageSize': size, 'direction':'DESC'}});
+}return {'stored':finalresult.result.content} on channel 'potagergetData'
+
+
+
+

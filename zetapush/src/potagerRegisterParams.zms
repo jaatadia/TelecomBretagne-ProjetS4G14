@@ -1,0 +1,15 @@
+macroscript potagerRegisterParams(string mail,number minT,number maxT,number minH, number maxH, number minL, number maxL){
+	
+	gda(GDA_ID).puts({'table': MAILBOX_EMAIL_DATABASE, 'rows': [{'key': __userKey, 'data': {
+		'mail':mail,
+		'minT': minT,'maxT':maxT,
+		'minH': minH,'maxH':maxH,
+		'minL': minL,'maxL':maxL
+	}}]});
+	
+	var email = gda(GDA_ID).get({'table': MAILBOX_EMAIL_DATABASE, 'key': __userKey});
+}return {'result':email.result.mail} on channel 'test'
+
+
+
+
