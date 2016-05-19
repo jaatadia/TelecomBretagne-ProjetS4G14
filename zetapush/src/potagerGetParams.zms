@@ -1,0 +1,10 @@
+macroscript potagerGetParams(){
+	
+
+	var data = gda(GDA_ID).get({'table': POTAGER_USER_DATABASE, 'key': __userKey});
+	
+}return {'result':data.result} on channel 'potagerGetParams'
+
+
+
+

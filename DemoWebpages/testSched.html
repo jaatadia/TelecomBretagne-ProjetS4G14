@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Mail Sender with ZetaPush</title>
+    <title>Scheduler with ZetaPush</title>
     <script src="https://static.zpush.io/js/1.1.11/zetapush.min.js"></script>
     <style>body::before{display: block;content: "Open Your Console";background: #000;color: #FFF;position: fixed;transform: rotate(45deg) translate(60px, 0px);right: 0;top: 0;height: 25px;padding: 5px 30px;line-height: 25px;font-family: Calibri, Helvetica, Arial;font-weight: bold;}</style>
   </head>
   <body>
-    <h1>Mail Sender with ZetaPush</h1>
+    <h1>Scheduler with ZetaPush</h1>
     <form name="form" class="js-Form--SendMail">
-      <label>to : <input type="text" name="to" class="js-Input--To" autofocus value="example@example.com"/><label>
       <button class="js-Button--Send">Send</button>
     </form>
 
@@ -71,8 +70,8 @@
           event.preventDefault();
 
           macroService.send('call', {
-            name: 'sendMail',
-            parameters: {'destination':$('.js-Input--To', event.currentTarget).value, 'text':'Hello World!'},
+            name: 'testSched',
+            parameters: {},
             hardFail: true
           });
         });

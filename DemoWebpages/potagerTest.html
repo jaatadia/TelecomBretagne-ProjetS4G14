@@ -35,6 +35,10 @@
 <br>
 <br>
 
+    <form name="form" class="js-Form--consultParams">
+      <label>get params: <label>
+      <button class="js-Button--Send">Send</button>
+    </form>
 
     <form name="form" class="js-Form--consultData">
       <label>get values: <input type="text" name="to" class="js-Input--To" autofocus value="10"/><label>
@@ -98,6 +102,11 @@
           console.log(message.data.result);//array of {__key:miliseconds from the epoch, Humidity: xxx , Temp: yyy, Lum:zzz} epoch=Jan 01 1970 00:00:00 -> [1] is older than [0]
         });
 
+        macroService.on('potagerGetParams', function(message) {
+          console.log(message.data.result);//array of parameters
+        });
+        
+
         //call to register mail
         on('.js-Form--SendMail', 'submit', function onFormSubmit(event) {
           console.time('Mail::SendMail');
@@ -149,6 +158,18 @@
           });
         });
 
+        //consultData
+        on('.js-Form--consultParams', 'submit', function onFormSubmit(event) {
+
+          event.preventDefault();
+
+          macroService.send('call', {
+            name: 'potagerGetParams',
+            parameters: {},//amount of meditions
+            hardFail: true
+          });
+
+        });
 
 
       }());

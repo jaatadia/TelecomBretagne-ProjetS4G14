@@ -6,6 +6,7 @@ const GDA_ID="1TIT";
 const USERDIR_ID="RLvv";
 const MACRO_ID="mDr4";
 const STACK_ID="xFef";
+const SCHED_ID="sche";
 
 const MAILBOX_EMAIL_DATABASE="MailboxMailDatabase";
 const MAILBOX_DATABASE="MailboxDatabase";
