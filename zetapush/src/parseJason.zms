@@ -1,0 +1,39 @@
+macrofunction parseJason(string){
+	
+	var result=[];
+	
+	var aux=str:replace(string,"\n","");
+	aux=str:replace(aux," ","");
+	aux=str:replace(aux,"\t","");
+	aux=str:replace(aux,"{","");
+	aux=str:replace(aux,"}","");
+	aux=str:replace(aux,',"','\n"');
+	aux=str:replace(aux,'"',"");
+	
+	aux=str:split(aux,'\n');
+	var i=0;
+	while(i<coll:size(aux)){
+		var tmp=aux[i];
+		tmp=str:split(tmp,":");
+		result=list:add(result,tmp[0]);
+		result=list:add(result,tmp[1]);
+		i+=1;
+	}
+		
+}return result
+
+macrofunction valueJason(myList,string){
+	var result="";
+	var found=false;
+	var i=0;
+	while(!found && i+1<coll:size(myList)){
+		if(myList[i]==string){
+			found=true;
+			result=myList[i+1];
+		}
+		i+=2;
+	}
+	
+}return result
+
+//macrofunction f(string,i)return str:substr(string,i,i+1)

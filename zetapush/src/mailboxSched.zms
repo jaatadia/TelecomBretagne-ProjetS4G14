@@ -1,0 +1,35 @@
+macroscript startMailboxScheduler(){
+	 cron(SCHED_ID).schedule({
+		'cronName': "mailbox", 
+		'deploymentId': MACRO_ID, 
+		'verb': 'func', 
+		'parameter': {
+			'name': 'mailboxLoop'
+		}, 
+		'schedule': time:now() + 60 * 2 * 1000
+	});
+}
+
+
+macroscript mailboxLoop(){
+	
+	var result=httpclient(HTTP_CLI_ID).call({'name':'mailbox'});
+	result=usr:parseJason(result.content);
+	
+	var dist=usr:parseInt(usr:valueJason(result,"dist"));
+	macro(__deploymentId).func({'name': 'mailboxPushData','parameters':{'dist':dist}});
+	
+	cron(SCHED_ID).schedule({
+		'cronName': "mailbox", 
+		'deploymentId': MACRO_ID, 
+		'verb': 'func', 
+		'parameter': {
+			'name': 'mailboxLoop'
+		}, 
+		'schedule': time:now() + 60 * 2 * 1000
+	});
+	
+}
+
+
+

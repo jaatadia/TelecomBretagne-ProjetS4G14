@@ -7,6 +7,7 @@ const USERDIR_ID="RLvv";
 const MACRO_ID="mDr4";
 const STACK_ID="xFef";
 const SCHED_ID="sche";
+const HTTP_CLI_ID="http";
 
 const MAILBOX_EMAIL_DATABASE="MailboxMailDatabase";
 const MAILBOX_DATABASE="MailboxDatabase";
@@ -17,4 +18,3 @@ const POTAGER_USER_DATABASE = "PotUserDatabase";
 const POTAGER_DATABASE = "PotagerDatabase";
 
 service myMacros = macro(MACRO_ID);
-

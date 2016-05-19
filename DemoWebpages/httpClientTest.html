@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Mail Sender with ZetaPush</title>
+    <script src="https://static.zpush.io/js/1.1.11/zetapush.min.js"></script>
+    <style>body::before{display: block;content: "Open Your Console";background: #000;color: #FFF;position: fixed;transform: rotate(45deg) translate(60px, 0px);right: 0;top: 0;height: 25px;padding: 5px 30px;line-height: 25px;font-family: Calibri, Helvetica, Arial;font-weight: bold;}</style>
+  </head>
+  <body>
+    <h1>echo with ZetaPush macro</h1>
+    <form name="form" class="js-Form--SendMail">
+      <label>echo : <input type="text" name="to" class="js-Input--To" autofocus/><label>
+      <button class="js-Button--Send">Send</button>
+    </form>
+
+    <h2>origin</h2><h3 id="origin"></h3>
+    <h2>result</h2><h3 id="result"></h3>
+
+    <script>
+      (function main() {
+        
+
+        // Callback for handshake
+        zp.onHandshake(function (message) {
+          if (message.successful) {
+            console.log('ZetaPush Hanshake Successful');
+          }
+        });
+        // callback when you get connected
+        zp.onConnected(function(message) {
+          console.log('You are connected', message);
+        });
+
+        function $(selector, root) {
+          return (root || document).querySelector(selector);
+        }
+
+        function on(selector, event, handler) {
+          return $(selector).addEventListener(event, handler);
+        }
+
+        
+        // Business Id
+        var businessId= 'e3qeDdH4'; //sandbox-ID
+        zp.init(businessId);
+
+      	// This is the deploymentId of our Memory Authentification
+        var authentDeploymentId = 'jFKx'; //authentication ID
+        var authent = new zp.authent.Weak(authentDeploymentId);
+
+        // Initialize ZetaPush and Connect
+        // Login parameters
+        var login = 'tuto'
+        var password = 'tuto';
+        var resource = 'zetapushTuto';
+        zp.connect(authent.getConnectionData(login, password, resource));
+
+
+
+		// Creation of the template service
+        var macroDeploymentId = 'mDr4';
+        var macroService = new zp.service.Generic(macroDeploymentId);
+
+        macroService.onError(function(message) {
+          console.error('macroService::onError', message);
+        });
+
+        macroService.on('test', function(message) {
+          console.log(message)
+          document.getElementById("result").innerHTML=message.data.result['result'];
+        });
+
+        macroService.on('completed', function(message) {
+          console.log(message)
+        });
+
+
+        macroService.on('consultData', function(message) {
+          console.log(message)
+        });
+
+         on('.js-Form--SendMail', 'submit', function onFormSubmit(event) {
+          console.time('Mail::SendMail');
+
+          event.preventDefault();
+
+          macroService.send('call', {
+            name: 'testHttpCient',
+            parameters: {},
+            hardFail: true
+          });
+
+        });
+
+      }());
+
+
+  </script>
+  </body>
+</html>

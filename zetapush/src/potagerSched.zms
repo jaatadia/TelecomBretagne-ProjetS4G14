@@ -1,0 +1,36 @@
+macroscript startPotagerScheduler(){
+	 cron(SCHED_ID).schedule({
+		'cronName': "mailbox", 
+		'deploymentId': MACRO_ID, 
+		'verb': 'func', 
+		'parameter': {
+			'name': 'potagerLoop'
+		}, 
+		'schedule': time:now() + 60 * 2 * 1000
+	});
+}
+
+
+macroscript potagerLoop(){
+	
+	var result=httpclient(HTTP_CLI_ID).call({'name':'potager'});
+	result=usr:parseJason(result.content);
+	
+	var temp=usr:parseInt(usr:valueJason(result,"temp"));
+	var humidity=usr:parseInt(usr:valueJason(result,"hum"));
+	var luminosity=usr:parseInt(usr:valueJason(result,"lum"));
+	
+	
+	macro(__deploymentId).func({'name': 'potagerPushData','parameters':{'temp':temp,"humidity":humidity, "luminosity":luminosity}});
+	
+	cron(SCHED_ID).schedule({
+		'cronName': "mailbox", 
+		'deploymentId': MACRO_ID, 
+		'verb': 'func', 
+		'parameter': {
+			'name': 'potagerLoop'
+		}, 
+		'schedule': time:now() + 60 * 2 * 1000
+	});
+	
+}
