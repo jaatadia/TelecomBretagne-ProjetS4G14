@@ -10,6 +10,7 @@ const SCHED_ID="sche";
 
 const MAILBOX_EMAIL_DATABASE="MailboxMailDatabase";
 const MAILBOX_DATABASE="MailboxDatabase";
+const MAILBOX_EVENT_DATABASE="MailboxEventBase";
 const MAILBOX_TOLERANCE=1;
 
 const POTAGER_USER_DATABASE = "PotUserDatabase";

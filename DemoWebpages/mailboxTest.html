@@ -24,6 +24,11 @@
       <button class="js-Button--Send">Send</button>
     </form>
 
+    <form name="form" class="js-Form--consultEvents">
+      <label>get events: <input type="text" name="to" class="js-Input--To" autofocus value="10"/><label>
+      <button class="js-Button--Send">Send</button>
+    </form>
+
 
     <script>
       (function main() {
@@ -81,6 +86,10 @@
           console.log(message.data.result);//array of {__key:miliseconds from the epoch, dist: distance stored} epoch=Jan 01 1970 00:00:00 -> [1] is older than [0]
         });
 
+       macroService.on('mailboxgetEvents', function(message) {
+          console.log(message.data.result);//array of {__key:miliseconds from the epoch, dist: distance stored} epoch=Jan 01 1970 00:00:00 -> [1] is older than [0]
+        });
+
         //call to register mail
         on('.js-Form--SendMail', 'submit', function onFormSubmit(event) {
           console.time('Mail::SendMail');
@@ -113,6 +122,18 @@
 
           macroService.send('call', {
             name: 'mailboxgetData',
+            parameters: {'size':parseInt($('.js-Input--To', event.currentTarget).value)},//amount of meditions
+            hardFail: true
+          });
+        });
+
+        on('.js-Form--consultEvents', 'submit', function onFormSubmit(event) {
+          console.time('Mail::SendMail');
+
+          event.preventDefault();
+
+          macroService.send('call', {
+            name: 'mailboxgetEvents',
             parameters: {'size':parseInt($('.js-Input--To', event.currentTarget).value)},//amount of meditions
             hardFail: true
           });

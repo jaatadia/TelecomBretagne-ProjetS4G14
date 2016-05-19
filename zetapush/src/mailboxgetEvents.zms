@@ -1,5 +1,5 @@
-macroscript mailboxgetData(number size){
-	var finalresult = gda(GDA_ID).list({'table': MAILBOX_DATABASE, 'page': {'pageNumber': 0, 'pageSize': size, 'direction':'DESC'}});
+macroscript mailboxgetEvents(number size){
+	var finalresult = gda(GDA_ID).list({'table': MAILBOX_EVENT_DATABASE, 'page': {'pageNumber': 0, 'pageSize': size, 'direction':'DESC'}});
 	
 	
 	
@@ -13,7 +13,7 @@ macroscript mailboxgetData(number size){
 		
 		var jason="{\n" 
 			+ '\t"time":'+'"'+date+'",\n'
-			+ '\t"dist":'+'"'+temp[i].dist+'"\n'
+			+ '\t"event":'+'"'+temp[i].event+'"\n'
 			+"}";
 		data=list:add(data,jason);
 		
@@ -21,7 +21,7 @@ macroscript mailboxgetData(number size){
 	}
 	
 //}return {'stored':finalresult.result.content} on channel 'mailboxgetData'
-}return {'values':data, 'etc':temp} on channel 'mailboxgetData'
+}return {'values':data, 'etc':temp} on channel 'mailboxgetEvents'
 
 
 

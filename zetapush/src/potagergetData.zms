@@ -21,7 +21,7 @@ macroscript potagergetData(number size){
 	
 	
 //}return {'stored':finalresult.result.content} on channel 'potagergetData'
-}return {'values':data,'etc':temp} on channel 'potagergetData'
+}return {'values':data} on channel 'potagergetData'
 
 macrofunction parseInt(string){
 	var result=0;

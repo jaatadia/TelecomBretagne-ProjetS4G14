@@ -1,5 +1,6 @@
 macroscript mailboxPushData(number dist){
-	gda(GDA_ID).puts({'table': MAILBOX_DATABASE, 'rows': [{'key': time:now(), 'data': {'dist': dist}}]});
+	var now=time:now();
+	gda(GDA_ID).puts({'table': MAILBOX_DATABASE, 'rows': [{'key': now, 'data': {'dist': dist}}]});
 	
 	var email = gda(GDA_ID).get({'table': MAILBOX_EMAIL_DATABASE, 'key': __userKey});
 	var finalresult = gda(GDA_ID).list({'table': MAILBOX_DATABASE, 'page': {'pageNumber': 0, 'pageSize': 10, 'direction':'DESC'}});
@@ -8,12 +9,18 @@ macroscript mailboxPushData(number dist){
 		email=email.result.mail;
 		finalresult=finalresult.result.content;
 		if (coll:size(finalresult)>1){
-			if(finalresult[0].dist<MAILBOX_TOLERANCE && finalresult[1].dist>MAILBOX_TOLERANCE){
+			if(finalresult[0].dist<=MAILBOX_TOLERANCE && finalresult[1].dist>MAILBOX_TOLERANCE){
 				sendmail(MAIL_ID).send({'to': [email], 'subject': "New mail", 'text': "You have a new mail in your mailbox"});
+				gda(GDA_ID).puts({'table': MAILBOX_EVENT_DATABASE, 'rows': [{'key': now, 'data': {'event': 1}}]});
+			}else{
+				if(finalresult[0].dist>MAILBOX_TOLERANCE && finalresult[1].dist<=MAILBOX_TOLERANCE){
+					gda(GDA_ID).puts({'table': MAILBOX_EVENT_DATABASE, 'rows': [{'key': now, 'data': {'event': 0}}]});
+				}
 			}
 		}else{
-			if(finalresult[0].dist<MAILBOX_TOLERANCE){
+			if(finalresult[0].dist<=MAILBOX_TOLERANCE){
 				sendmail(MAIL_ID).send({'to': [email], 'subject': "New mail", 'text': "You have a new mail in your mailbox"});
+				gda(GDA_ID).puts({'table': MAILBOX_EVENT_DATABASE, 'rows': [{'key': now, 'data': {'event': 1}}]});
 			}
 		}
 	}
