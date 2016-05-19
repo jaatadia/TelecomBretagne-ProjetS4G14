@@ -1,6 +1,6 @@
 macroscript potagerPushData(number temp,number humidity, number luminosity){
 
-	
+	stack(STACK_ID).push({'stack': 'potager', 'data': {}});
 	gda(GDA_ID).puts({'table': POTAGER_DATABASE, 'rows': [{'key': time:now(), 'data': {'Temp': temp,'Humidity':humidity,'Lum':luminosity}}]});
 	
 	var data = gda(GDA_ID).get({'table': POTAGER_USER_DATABASE, 'key': __userKey});

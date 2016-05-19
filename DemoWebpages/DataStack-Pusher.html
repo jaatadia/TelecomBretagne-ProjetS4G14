@@ -59,7 +59,7 @@
 
 
         var dataStackDeploymentId = 'xFef';
-        var dataStackService = new zp.service.Generic(dataStackDeploymentId);
+        var stack = new zp.service.Generic(dataStackDeploymentId);
 
 
         macroService.onError(function(message) {
@@ -86,11 +86,11 @@
           //   parameters: {'value':parseInt($('.js-Input--To', event.currentTarget).value)},
           //   hardFail: true
           // });
-          dataStackService.send('call',{name: 'push', parameters:{'stack': 'mailBox1', 'data': {'field1': 'value1'}}});
+          stack.send('push', {'stack': 'mailBox1', 'data': {'field1': 'value1'}});
 
         });
 
-        macroService.on('push',function(message) {
+        stack.on('push',function(message) {
           console.log(message);
         });
         

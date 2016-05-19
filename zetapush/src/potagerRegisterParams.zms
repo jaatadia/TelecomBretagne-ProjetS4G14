@@ -1,6 +1,7 @@
 macroscript potagerRegisterParams(string mail,number minT,number maxT,number minH, number maxH, number minL, number maxL){
 	
-
+	stack(STACK_ID).setListeners({'stack': 'potager', 'listeners': [__userKey]});
+	
 	gda(GDA_ID).puts({'table': POTAGER_USER_DATABASE, 'rows': [{'key': __userKey, 'data': {
 		'mail': mail,
 		'minH': minH,'maxH':maxH,

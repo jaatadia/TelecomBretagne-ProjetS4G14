@@ -12,15 +12,18 @@ macroscript mailboxPushData(number dist){
 			if(finalresult[0].dist<=MAILBOX_TOLERANCE && finalresult[1].dist>MAILBOX_TOLERANCE){
 				sendmail(MAIL_ID).send({'to': [email], 'subject': "New mail", 'text': "You have a new mail in your mailbox"});
 				gda(GDA_ID).puts({'table': MAILBOX_EVENT_DATABASE, 'rows': [{'key': now, 'data': {'event': 1}}]});
+				stack(STACK_ID).push({'stack': 'mailbox', 'data': {}});
 			}else{
 				if(finalresult[0].dist>MAILBOX_TOLERANCE && finalresult[1].dist<=MAILBOX_TOLERANCE){
 					gda(GDA_ID).puts({'table': MAILBOX_EVENT_DATABASE, 'rows': [{'key': now, 'data': {'event': 0}}]});
+					stack(STACK_ID).push({'stack': 'mailbox', 'data': {}});
 				}
 			}
 		}else{
 			if(finalresult[0].dist<=MAILBOX_TOLERANCE){
 				sendmail(MAIL_ID).send({'to': [email], 'subject': "New mail", 'text': "You have a new mail in your mailbox"});
 				gda(GDA_ID).puts({'table': MAILBOX_EVENT_DATABASE, 'rows': [{'key': now, 'data': {'event': 1}}]});
+				stack(STACK_ID).push({'stack': 'mailbox', 'data': {}});
 			}
 		}
 	}
