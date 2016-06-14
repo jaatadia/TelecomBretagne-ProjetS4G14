@@ -1,4 +1,8 @@
 macroscript startMailboxScheduler(){
+	 
+	cron(SCHED_ID).unschedule({'cronName': 'mailbox'});
+
+	 
 	 cron(SCHED_ID).schedule({
 		'cronName': "mailbox", 
 		'deploymentId': MACRO_ID, 
@@ -26,7 +30,7 @@ macroscript mailboxLoop(){
 		'parameter': {
 			'name': 'mailboxLoop'
 		}, 
-		'schedule': time:now() + 60 * 2 * 1000
+		'schedule': time:now() + 60 * 5 * 1000
 	});
 	
 }

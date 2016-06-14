@@ -1,6 +1,9 @@
 macroscript startPotagerScheduler(){
+	 
+	 cron(SCHED_ID).unschedule({'cronName': 'potager'});
+	 
 	 cron(SCHED_ID).schedule({
-		'cronName': "mailbox", 
+		'cronName': "potager", 
 		'deploymentId': MACRO_ID, 
 		'verb': 'func', 
 		'parameter': {
@@ -30,7 +33,7 @@ macroscript potagerLoop(){
 		'parameter': {
 			'name': 'potagerLoop'
 		}, 
-		'schedule': time:now() + 60 * 2 * 1000
+		'schedule': time:now() + 60 * 5 * 1000
 	});
 	
 }
