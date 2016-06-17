@@ -1,3 +1,16 @@
+
+macroscript potagerPushDataAux(string data){
+	
+	var result=usr:parseJason(data);
+		
+	var temp=usr:parseInt(usr:valueJason(result,"temp"));
+	var humidity=usr:parseInt(usr:valueJason(result,"hum"));
+	var luminosity=usr:parseInt(usr:valueJason(result,"lum"));	
+		
+	macro(__deploymentId).func({'name': 'potagerPushData','parameters':{'temp':temp,"humidity":humidity, "luminosity":luminosity}});
+}
+
+
 macroscript potagerPushData(number temp,number humidity, number luminosity){
 
 	stack(STACK_ID).push({'stack': 'potager', 'data': {}});

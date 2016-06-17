@@ -29,6 +29,14 @@
       <button class="js-Button--Send">Send</button>
     </form>
 
+    <form name="form" class="js-Form--stop">
+      <button class="js-Button--Send">Stop Sched</button>
+    </form>
+
+    <form name="form" class="js-Form--reset">
+      <button class="js-Button--Send">reset data</button>
+    </form>
+
 
     <script>
       (function main() {
@@ -109,7 +117,7 @@
           event.preventDefault();
           macroService.send('call', {
             name: 'mailboxPushData',
-            parameters: {'dist':parseInt($('.js-Input--To', event.currentTarget).value)},
+            parameters: {'data':$('.js-Input--To', event.currentTarget).value},
             hardFail: true
           });
         });
@@ -139,7 +147,41 @@
           });
         });
 
+        //stop
+        on('.js-Form--stop', 'submit', function onFormSubmit(event) {
+          console.time('Mail::SendMail');
 
+          event.preventDefault();
+
+          macroService.send('call', {
+            name: 'stopSched',
+            parameters: {},//amount of meditions
+            hardFail: true
+          });
+
+        });
+
+
+        on('.js-Form--reset', 'submit', function onFormSubmit(event) {
+          console.time('Mail::SendMail');
+
+          event.preventDefault();
+
+          macroService.send('call', {
+            name: 'resetData',
+            parameters: {'table':"MailboxEventBase"},//amount of meditions
+            hardFail: true
+          });
+
+          macroService.send('call', {
+            name: 'resetData',
+            parameters: {'table':"MailboxDBs"},//amount of meditions
+            hardFail: true
+          });
+
+
+
+        });
 
       }());
 

@@ -45,6 +45,9 @@
       <button class="js-Button--Send">Send</button>
     </form>
 
+    <form name="form" class="js-Form--stop">
+      <button class="js-Button--Send">Stop Sched</button>
+    </form>
 
     <script>
       (function main() {
@@ -79,9 +82,9 @@
 
         // Initialize ZetaPush and Connect
         // Login parameters
-        var login = 'javier'
-        var password = 'javier';
-        var resource = 'javier';
+        var login = 'admin'
+        var password = 'admin';
+        var resource = 'alpha';
         zp.connect(authent.getConnectionData(login, password, resource));
 
 
@@ -169,6 +172,19 @@
             hardFail: true
           });
 
+        });
+
+                //stop
+        on('.js-Form--stop', 'submit', function onFormSubmit(event) {
+          console.time('Mail::SendMail');
+
+          event.preventDefault();
+
+          macroService.send('call', {
+            name: 'stopSched',
+            parameters: {},//amount of meditions
+            hardFail: true
+          });
         });
 
 

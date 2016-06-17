@@ -1,0 +1,3 @@
+macroscript resetData(string table){
+	var finalresult=gda(GDA_ID).removeRange({'table': table,'start':0,'stop':9999999999999});
+} return {'result': finalresult} on channel 'test'

@@ -1,32 +1,39 @@
-macroscript mailboxPushData(number dist){
+macroscript mailboxPushData(string data){
 	var now=time:now();
-	gda(GDA_ID).puts({'table': MAILBOX_DATABASE, 'rows': [{'key': now, 'data': {'dist': dist}}]});
+	
+	gda(GDA_ID).puts({'table': MAILBOX_DATABASE, 'rows': [{'key': now, 'data': {'dist': data}}]});
 	
 	var email = gda(GDA_ID).get({'table': MAILBOX_EMAIL_DATABASE, 'key': __userKey});
 	var finalresult = gda(GDA_ID).list({'table': MAILBOX_DATABASE, 'page': {'pageNumber': 0, 'pageSize': 10, 'direction':'DESC'}});
 	
+	var send=false;
 	if(coll:size(email.result)>0){
 		email=email.result.mail;
-		finalresult=finalresult.result.content;
-		if (coll:size(finalresult)>1){
-			if(finalresult[0].dist<=MAILBOX_TOLERANCE && finalresult[1].dist>MAILBOX_TOLERANCE){
-				sendmail(MAIL_ID).send({'to': [email], 'subject': "New mail", 'text': "You have a new mail in your mailbox"});
-				gda(GDA_ID).puts({'table': MAILBOX_EVENT_DATABASE, 'rows': [{'key': now, 'data': {'event': 1}}]});
-				stack(STACK_ID).push({'stack': 'mailbox', 'data': {}});
-			}else{
-				if(finalresult[0].dist>MAILBOX_TOLERANCE && finalresult[1].dist<=MAILBOX_TOLERANCE){
-					gda(GDA_ID).puts({'table': MAILBOX_EVENT_DATABASE, 'rows': [{'key': now, 'data': {'event': 0}}]});
-					stack(STACK_ID).push({'stack': 'mailbox', 'data': {}});
-				}
-			}
+		send=true;
+	}
+	
+	finalresult=finalresult.result.content;
+	if (coll:size(finalresult)>1){
+		//if(finalresult[0].dist<=MAILBOX_TOLERANCE && finalresult[1].dist>MAILBOX_TOLERANCE){
+		if(finalresult[0].dist=="1" && finalresult[1].dist=="0"){
+			if(send){sendmail(MAIL_ID).send({'to': [email], 'subject': "New mail", 'text': "You have a new mail in your mailbox"});}
+			gda(GDA_ID).puts({'table': MAILBOX_EVENT_DATABASE, 'rows': [{'key': now, 'data': {'event': 1}}]});
+			stack(STACK_ID).push({'stack': 'mailbox', 'data': {}});
 		}else{
-			if(finalresult[0].dist<=MAILBOX_TOLERANCE){
-				sendmail(MAIL_ID).send({'to': [email], 'subject': "New mail", 'text': "You have a new mail in your mailbox"});
-				gda(GDA_ID).puts({'table': MAILBOX_EVENT_DATABASE, 'rows': [{'key': now, 'data': {'event': 1}}]});
+			//if(finalresult[0].dist>MAILBOX_TOLERANCE && finalresult[1].dist<=MAILBOX_TOLERANCE){
+			if(finalresult[0].dist=="0" && finalresult[1].dist=="1"){
+				gda(GDA_ID).puts({'table': MAILBOX_EVENT_DATABASE, 'rows': [{'key': now, 'data': {'event': 0}}]});
 				stack(STACK_ID).push({'stack': 'mailbox', 'data': {}});
 			}
 		}
+	}else{
+		if(finalresult[0].dist=="1"){
+			if (send){sendmail(MAIL_ID).send({'to': [email], 'subject': "New mail", 'text': "You have a new mail in your mailbox"});}
+			gda(GDA_ID).puts({'table': MAILBOX_EVENT_DATABASE, 'rows': [{'key': now, 'data': {'event': 1}}]});
+			stack(STACK_ID).push({'stack': 'mailbox', 'data': {}});
+		}
 	}
+	
 	
 }return {'stored':finalresult, 'mail':email} on channel 'test'
 

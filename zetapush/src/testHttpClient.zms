@@ -1,4 +1,5 @@
 macroscript testHttpCient(){
-	var result=httpclient(HTTP_CLI_ID).call({'name':'test'});
-	var aux=usr:parseJason(result.content);
-} return {'result': usr:valueJason(aux,"ip"),'etc':result.content} on channel 'test'
+	var result=httpclient(HTTP_CLI_ID).call({'name':'mailbox'});
+	//var aux=usr:parseJason(result.content);
+//} return {'result': usr:valueJason(aux,"ip"),'etc':result.content} on channel 'test'
+} return {'result': result.content} on channel 'test'

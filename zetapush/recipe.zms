@@ -10,9 +10,9 @@ const SCHED_ID="sche";
 const HTTP_CLI_ID="http";
 
 const MAILBOX_EMAIL_DATABASE="MailboxMailDatabase";
-const MAILBOX_DATABASE="MailboxDatabase";
+const MAILBOX_DATABASE="MailboxDBs";
 const MAILBOX_EVENT_DATABASE="MailboxEventBase";
-const MAILBOX_TOLERANCE=1;
+
 
 const POTAGER_USER_DATABASE = "PotUserDatabase";
 const POTAGER_DATABASE = "PotagerDatabase";

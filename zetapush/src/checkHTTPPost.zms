@@ -1,5 +1,7 @@
-macroscript checkHTTPPost{
-	gda(GDA_ID).puts({'table': 'mailbox', 'rows': [{'key': time:now(), 'data': {'box1': 12}}]});
+macroscript checkHTTPPost(number dist){
+		var result=gda(GDA_ID).puts({'table': MAILBOX_DATABASE, 'rows': [{'key': time:now(), 'data': {'dist': dist}}]});
+	
+	//sendmail(MAIL_ID).send({'to': ["jaatadia@gmail.com"], 'subject': "New mail", 'text': "You have a new mail in your mailbox"});
 }
 
 

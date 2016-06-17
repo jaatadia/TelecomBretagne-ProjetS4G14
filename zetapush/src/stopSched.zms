@@ -1,0 +1,8 @@
+macroscript stopSched(){
+	cron(SCHED_ID).unschedule({'cronName': 'potager'});
+	cron(SCHED_ID).unschedule({'cronName': 'mailbox'});
+}
+
+
+
+

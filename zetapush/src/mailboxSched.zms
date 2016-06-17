@@ -18,10 +18,13 @@ macroscript startMailboxScheduler(){
 macroscript mailboxLoop(){
 	
 	var result=httpclient(HTTP_CLI_ID).call({'name':'mailbox'});
-	result=usr:parseJason(result.content);
 	
-	var dist=usr:parseInt(usr:valueJason(result,"dist"));
-	macro(__deploymentId).func({'name': 'mailboxPushData','parameters':{'dist':dist}});
+	if (result.content!=""){
+		//result=usr:parseJason(result.content);
+		//var dist=usr:parseInt(usr:valueJason(result,"dist"));
+		//macro(__deploymentId).func({'name': 'mailboxPushData','parameters':{'dist':dist}});
+		macro(__deploymentId).func({'name': 'mailboxPushData','parameters':{'dist':usr:parseInt(result.content)}});
+	}
 	
 	cron(SCHED_ID).schedule({
 		'cronName': "mailbox", 
@@ -30,7 +33,7 @@ macroscript mailboxLoop(){
 		'parameter': {
 			'name': 'mailboxLoop'
 		}, 
-		'schedule': time:now() + 60 * 5 * 1000
+		'schedule': time:now() + 60 * 2 * 1000
 	});
 	
 }
