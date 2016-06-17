@@ -15,6 +15,6 @@ const MAILBOX_EVENT_DATABASE="MailboxEventBase";
 
 
 const POTAGER_USER_DATABASE = "PotUserDatabase";
-const POTAGER_DATABASE = "PotagerDatabase";
+const POTAGER_DATABASE = "PotagerDatabase2";
 
 service myMacros = macro(MACRO_ID);

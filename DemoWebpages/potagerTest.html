@@ -45,8 +45,15 @@
       <button class="js-Button--Send">Send</button>
     </form>
 
+
+
+
     <form name="form" class="js-Form--stop">
       <button class="js-Button--Send">Stop Sched</button>
+    </form>
+
+    <form name="form" class="js-Form--reset">
+      <button class="js-Button--Send">reset data</button>
     </form>
 
     <script>
@@ -185,6 +192,49 @@
             parameters: {},//amount of meditions
             hardFail: true
           });
+
+
+
+          macroService.send('call', {
+            name: 'potagerPushDataAux',
+            parameters: {
+              'data':'{ "temp":"10","lum":"20","hum":"30"}'
+            },
+            hardFail: true
+          });
+
+        });
+
+
+
+        //stop
+        on('.js-Form--stop', 'submit', function onFormSubmit(event) {
+          console.time('Mail::SendMail');
+
+          event.preventDefault();
+
+          macroService.send('call', {
+            name: 'stopSched',
+            parameters: {},//amount of meditions
+            hardFail: true
+          });
+
+        });
+
+
+        on('.js-Form--reset', 'submit', function onFormSubmit(event) {
+          console.time('Mail::SendMail');
+
+          event.preventDefault();
+
+          macroService.send('call', {
+            name: 'resetData',
+            parameters: {'table':"PotagerDatabase2"},//amount of meditions
+            hardFail: true
+          });
+
+
+
         });
 
 

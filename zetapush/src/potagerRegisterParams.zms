@@ -9,8 +9,8 @@ macroscript potagerRegisterParams(string mail,number minT,number maxT,number min
 		'minL': minL,'maxL':maxL
 	}}]});
 	
-	var email = gda(GDA_ID).get({'table': POTAGER_USER_DATABASE, 'key': __userKey});
-}return {'result':email.result} on channel 'test'
+	var values = gda(GDA_ID).get({'table': POTAGER_USER_DATABASE, 'key': __userKey});
+}return {'result':values.result} on channel 'test'
 
 
 

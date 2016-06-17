@@ -3,17 +3,24 @@ macroscript potagerPushDataAux(string data){
 	
 	var result=usr:parseJason(data);
 		
-	var temp=usr:parseInt(usr:valueJason(result,"temp"));
-	var humidity=usr:parseInt(usr:valueJason(result,"hum"));
-	var luminosity=usr:parseInt(usr:valueJason(result,"lum"));	
-		
+	//var temp=usr:parseInt(usr:valueJason(result,"temp"));
+	//var humidity=usr:parseInt(usr:valueJason(result,"hum"));
+	//var luminosity=usr:parseInt(usr:valueJason(result,"lum"));	
+	
+			
+	var temp=usr:valueJason(result,"temp");
+	var humidity=usr:valueJason(result,"hum");
+	var luminosity=usr:valueJason(result,"lum");
+	
+	//macro(__deploymentId).func({'name': 'potagerPushData','parameters':{'temp':10,"humidity":20, "luminosity":30}});
 	macro(__deploymentId).func({'name': 'potagerPushData','parameters':{'temp':temp,"humidity":humidity, "luminosity":luminosity}});
-}
+	
+} return {'temp':temp, 'hum': humidity,'lum':luminosity} on channel 'test'
 
 
-macroscript potagerPushData(number temp,number humidity, number luminosity){
+macroscript potagerPushData(string temp,string humidity, string luminosity){
 
-	stack(STACK_ID).push({'stack': 'potager', 'data': {}});
+	stack(STACK_ID).push({'stack': 'mailbox', 'data': {}});
 	gda(GDA_ID).puts({'table': POTAGER_DATABASE, 'rows': [{'key': time:now(), 'data': {'Temp': temp,'Humidity':humidity,'Lum':luminosity}}]});
 	
 	var data = gda(GDA_ID).get({'table': POTAGER_USER_DATABASE, 'key': __userKey});

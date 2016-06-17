@@ -1,6 +1,7 @@
 macroscript mailboxPushData(string data){
 	var now=time:now();
 	
+	stack(STACK_ID).push({'stack': 'potager', 'data': {}});
 	gda(GDA_ID).puts({'table': MAILBOX_DATABASE, 'rows': [{'key': now, 'data': {'dist': data}}]});
 	
 	var email = gda(GDA_ID).get({'table': MAILBOX_EMAIL_DATABASE, 'key': __userKey});
