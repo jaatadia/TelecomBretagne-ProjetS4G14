@@ -76,11 +76,15 @@
         var resource = 'javier';
         zp.connect(authent.getConnectionData(login, password, resource));
 
-
+        
 
 		// Creation of the template service
         var macroDeploymentId = 'mDr4';
         var macroService = new zp.service.Generic(macroDeploymentId);
+
+    var dataStackDeploymentId = 'xFef';
+    var stack = new zp.service.Generic(dataStackDeploymentId);
+
 
         macroService.onError(function(message) {
           console.error('macroService::onError', message);
@@ -97,6 +101,21 @@
        macroService.on('mailboxgetEvents', function(message) {
           console.log(message.data.result);//array of {__key:miliseconds from the epoch, dist: distance stored} epoch=Jan 01 1970 00:00:00 -> [1] is older than [0]
         });
+
+        stack.on('push',function(message) {
+          console.log("push recieved");
+        });
+
+        stack.on('mailbox',function(message) {
+          console.log("push recieved 2");
+        });
+
+        stack.onError(function(message) {
+          console.error('stack::onError', message);
+        });
+
+
+
 
         //call to register mail
         on('.js-Form--SendMail', 'submit', function onFormSubmit(event) {

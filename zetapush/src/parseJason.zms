@@ -7,10 +7,9 @@ macrofunction parseJason(string){
 	aux=str:replace(aux,"\t","");
 	aux=str:replace(aux,"{","");
 	aux=str:replace(aux,"}","");
-	aux=str:replace(aux,',"','\n"');
 	aux=str:replace(aux,'"',"");
 	
-	aux=str:split(aux,'\n');
+	aux=str:split(aux,',');
 	var i=0;
 	while(i<coll:size(aux)){
 		var tmp=aux[i];

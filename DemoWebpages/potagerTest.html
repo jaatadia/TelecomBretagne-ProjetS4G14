@@ -56,6 +56,14 @@
       <button class="js-Button--Send">reset data</button>
     </form>
 
+        <form name="form" class="js-Form--ON">
+      <button class="js-Button--Send">on</button>
+    </form>
+
+<form name="form" class="js-Form--OFF">
+      <button class="js-Button--Send">off</button>
+    </form>
+
     <script>
       (function main() {
 
@@ -117,6 +125,8 @@
         });
         
 
+
+
         //call to register mail
         on('.js-Form--SendMail', 'submit', function onFormSubmit(event) {
           console.time('Mail::SendMail');
@@ -145,9 +155,9 @@
           macroService.send('call', {
             name: 'potagerPushData',
             parameters: {
-              'temp':parseInt($('.js-Input--T', event.currentTarget).value),
-              'humidity':parseInt($('.js-Input--H', event.currentTarget).value),
-              'luminosity':parseInt($('.js-Input--L', event.currentTarget).value)
+              'temp':$('.js-Input--T', event.currentTarget).value,
+              'humidity':$('.js-Input--H', event.currentTarget).value,
+              'luminosity':$('.js-Input--L', event.currentTarget).value
             },
             hardFail: true
           });
@@ -198,7 +208,7 @@
           macroService.send('call', {
             name: 'potagerPushDataAux',
             parameters: {
-              'data':'{ "temp":"10","lum":"20","hum":"30"}'
+              'data':'{temp:10.3,lum:20.2,hum:30.0}'
             },
             hardFail: true
           });
@@ -230,6 +240,37 @@
           macroService.send('call', {
             name: 'resetData',
             parameters: {'table':"PotagerDatabase2"},//amount of meditions
+            hardFail: true
+          });
+
+
+
+        });
+
+
+        on('.js-Form--ON', 'submit', function onFormSubmit(event) {
+          console.time('Mail::SendMail');
+
+          event.preventDefault();
+
+          macroService.send('call', {
+            name: 'potagerLedOn',
+            parameters: {},//amount of meditions
+            hardFail: true
+          });
+
+
+
+        });
+
+        on('.js-Form--OFF', 'submit', function onFormSubmit(event) {
+          console.time('Mail::SendMail');
+
+          event.preventDefault();
+
+          macroService.send('call', {
+            name: 'potagerLedOff',
+            parameters: {},//amount of meditions
             hardFail: true
           });
 

@@ -15,7 +15,7 @@ macroscript potagerPushDataAux(string data){
 	//macro(__deploymentId).func({'name': 'potagerPushData','parameters':{'temp':10,"humidity":20, "luminosity":30}});
 	macro(__deploymentId).func({'name': 'potagerPushData','parameters':{'temp':temp,"humidity":humidity, "luminosity":luminosity}});
 	
-} return {'temp':temp, 'hum': humidity,'lum':luminosity} on channel 'test'
+} return {'temp':temp, 'hum': humidity,'lum':luminosity,"all":result} on channel 'test'
 
 
 macroscript potagerPushData(string temp,string humidity, string luminosity){

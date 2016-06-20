@@ -1,0 +1,9 @@
+macroscript potagerLedOn(){
+	 httpclient(HTTP_CLI_ID).call({'name':'potagerLedOn'});
+	 httpclient(HTTP_CLI_ID).call({'name':'potagerLedOn'});
+} return {'result':"on"} on channel 'test'
+
+macroscript potagerLedOff(){
+	 httpclient(HTTP_CLI_ID).call({'name':'potagerLedOff'});
+	 httpclient(HTTP_CLI_ID).call({'name':'potagerLedOff'});
+} return {'result':"off"} on channel 'test'
