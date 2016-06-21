@@ -1,7 +1,7 @@
 #include "LoRaCoAP.h"
 #include <SPI.h>
 #include <stdint.h>
-#include <DHT.h>  // Download the library here https://learn.adafruit.com/dht/using-a-dhtxx-sensor
+#include "DHT.h"  // Download the library here https://learn.adafruit.com/dht/using-a-dhtxx-sensor
 #include "Wire.h"
 
 LoraShield lora;
