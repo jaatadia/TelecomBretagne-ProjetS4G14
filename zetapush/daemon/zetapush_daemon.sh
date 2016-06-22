@@ -1,6 +1,7 @@
 if [ $# -eq 0 ];  then
 	echo "No arguments supplied"
 	echo "Usage: ./zetapush_daemon.sh configuration_file "
+	exit 0
 fi
 
 source $1
