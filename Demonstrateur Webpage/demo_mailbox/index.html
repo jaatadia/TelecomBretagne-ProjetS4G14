@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <script type="text/javascript">setTimeout("location.reload()",1000*60);</script>
+
+        <script src="js/jquery.js"></script>
+        <script src="js/angular.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.easing.min.js"></script>
+        <script src="js/scrolling-nav.js"></script>
+        <script src="https://static.zpush.io/js/1.1.11/zetapush.min.js"></script>
+
+        <title>Boite aux lettres</title>
+
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/scrolling-nav.css" rel="stylesheet">
+    </head>
+    <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand page-scroll" href="#page-top">Boite aux lettres</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <ul class="nav navbar-nav">
+                        <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                        <li>
+                            <a class="page-scroll" href="#page-top">Information</a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="#about">About</a>
+                        </li>
+                        <li>
+                            <a href="../">Retour</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+        <!-- Intro Section -->
+        <section id="intro" class="intro-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h2>Votre adresse mail</h2>
+                        <form name="form" class="js-Form--SendMail">
+                            <label>email: </label>
+                            <input type="text" name="to" class="js-Input--To" value="xxx@xxx.com"/>
+                            <button class="js-Button--Send">Envoyer</button>
+                        </form>
+                        <h1>Information</h1>
+                        <h3 id="status" class="text-left"></h3>
+                        <div class="container">
+                            <div class="panel panel-default">
+                                <h3 class="panel-heading text-left">Historique</h3>
+                                <table class="table">
+                                    <thead class="thead">
+                                        <tr>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="n in range(10)">
+                                            <th scope="row"><p id="status{{n}}"></p></th>
+                                            <td class="text-left"><p id="date{{n}}"></p></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- About Section -->
+        <section id="about" class="about-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1>l'equipe</h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script>
+            (function main() {
+                var app = angular.module('myApp', []);
+                app.run(function($rootScope){
+                    $rootScope.range = function(n) {
+                        var arr = [];
+                        for (var i=0; i<n; ++i) arr.push(i);
+
+                        return arr;
+                    };
+                });
+                // Callback for handshake
+                zp.onHandshake(function (message) {
+                    if (message.successful) {
+                        console.log('ZetaPush Hanshake Successful');
+                    }
+                });
+                // callback when you get connected
+                zp.onConnected(function(message) {
+                    console.log('You are connected', message);
+                    macroService.send('call', {
+                        name: 'mailboxgetEvents',
+                        parameters: {'size':parseInt(10)},//amount of meditions
+                        hardFail: true
+                    });
+                });
+                function $(selector, root) {
+                    return (root || document).querySelector(selector);
+                }
+                function on(selector, event, handler) {
+                    return $(selector).addEventListener(event, handler);
+                }
+                // Business Id
+                var businessId= 'e3qeDdH4'; //sandbox-ID
+                zp.init(businessId);
+                // This is the deploymentId of our Memory Authentification
+                var authentDeploymentId = 'zVHJ'; //authentication ID
+                var authent = new zp.authent.Simple(authentDeploymentId);
+                // Initialize ZetaPush and Connect
+                // Login parameters
+                var login = 'admin'
+                var password = 'admin';
+                var resource = 'javier';
+                zp.connect(authent.getConnectionData(login, password, resource));
+                // Creation of the template service
+                var macroDeploymentId = 'mDr4';
+                var macroService = new zp.service.Generic(macroDeploymentId);
+                macroService.onError(function(message) {
+                    console.error('macroService::onError', message);
+                    console.log("error");
+                });
+                macroService.on('test', function(message) {
+                    console.log(message.data.result);
+                    console.log("test");
+                });
+                macroService.on('mailboxgetData', function(message) {
+                    console.log(message.data.result);
+                    console.log("mailboxgetData");
+                });
+                macroService.on('mailboxgetEvents', function(message) {
+                    console.log(message.data.result);
+                    console.log("mailboxgetEvents");
+                    var status = [];
+                    var date = [];
+                    if (message.data.result.etc[0].event == 1){
+                        document.getElementById("status").innerHTML = "Vous avez recu une nouvelle lettre";
+                    }else{
+                        document.getElementById("status").innerHTML = "Vous n'avez pas de lettre dans votre boite aux lettres";
+                    }
+                    for (var i = 0; i < message.data.result.etc.length; i++) {
+                        date[i] = new Date(parseInt(message.data.result.etc[i].__key));
+                        if (message.data.result.etc[i].event == 1) {
+                            document.getElementById("status" + i).innerHTML = "Recu";
+                        }else{
+                            document.getElementById("status" + i).innerHTML = "Retirer";
+                        }
+                        document.getElementById("date" + i).innerHTML = date[i].toLocaleDateString("fr-FR") + " " + date[i].toLocaleTimeString("fr-FR");
+                    }
+                });
+                on('.js-Form--SendMail', 'submit', function onFormSubmit(event) {
+                    console.time('Mail::SendMail');
+                    event.preventDefault();
+                    macroService.send('call', {
+                        name: 'mailboxRegisterMail',
+                        parameters: {'mail':$('.js-Input--To', event.currentTarget).value},
+                        hardFail: true
+                    });
+                });
+            }());
+        </script>
+    </body>
+</html>
