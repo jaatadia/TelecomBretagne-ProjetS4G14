@@ -17,7 +17,7 @@ echo $loop
 
 while true; do
 
-	content=$(wget $conectedObject -q -t 1 --timeout=30 -O -)
+	content=$(wget $conectedObject -q -t 1 --timeout=120 -O -)
 	echo "$content"
 
 	if [ "$content" != "" ]; then

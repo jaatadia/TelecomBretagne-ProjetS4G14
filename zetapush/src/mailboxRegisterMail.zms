@@ -1,6 +1,17 @@
 macroscript mailboxRegisterMail(string mail){
 	
 	stack(STACK_ID).setListeners({'stack': 'mailbox', 'listeners': [__userKey]});
+	
+	sendmail(MAIL_ID).send({'to': [mail], 'subject': "Zetapush", 'text': 
+
+"This is a reminder of Zetapush\n
+For more information please visit:\n
+\t https://zetapush.com/ \n
+For an example of usage please visit:\n
+\t http://projets4.zetapush.xyz/"
+	
+	});
+
 	gda(GDA_ID).put({'table': MAILBOX_EMAIL_DATABASE, 'key': __userKey, 'column':'mail', 'data':mail});
 	var email = gda(GDA_ID).get({'table': MAILBOX_EMAIL_DATABASE, 'key': __userKey});
 }return {'result':email.result.mail} on channel 'test'
